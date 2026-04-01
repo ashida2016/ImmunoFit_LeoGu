@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- Patient Info Summary -->
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body">
+                <h5 class="fw-bold text-dark">{{ t('patient_details') }}</h5>
+                <hr>
+                <p><strong>Name:</strong> {{ patient.name }}</p>
+                <p><strong>{{ t('age') }}:</strong> {{ patient.age }}</p>
+                <p><strong>{{ t('gender') }}:</strong> {{ patient.gender }}</p>
+                <p><strong>{{ t('bmi') }}:</strong> {{ patient.bmi }}</p>
+                <p class="text-secondary small mt-3"><i class="bi bi-shield-lock-fill"></i> {{ t('encrypted') }}</p>
+            </div>
+        </div>
+
+        {% if latest %}
+        <div class="card shadow-sm border-0 rounded-4 bg-primary text-white">
+            <div class="card-body">
+                <h5 class="fw-bold">{{ t('predicted_response') }}</h5>
+                <h2 class="display-4 fw-bold text-center mt-3">{{ "%.1f"|format(latest.predicted_response) }}%</h2>
+                <p class="text-center mb-0 mt-3 small">{{ t('clinical_advice') }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Main Analytics -->
+    <div class="col-md-9">
+        
+        <!-- IRS Tracking Chart -->
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                <h4 class="fw-bold text-primary">{{ t('irs_calc') }}</h4>
+            </div>
+            <div class="card-body">
+                <div id="irs_chart" style="width: 100%; height: 350px;"></div>
+            </div>
+        </div>
+        
+        <!-- 3D Immune State Space -->
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                <h4 class="fw-bold text-primary">{{ t('3d_state_space') }}</h4>
+            </div>
+            <div class="card-body">
+                <div id="state_space_chart" style="width: 100%; height: 350px;"></div>
+                <div class="alert alert-info mt-3" role="alert">
+                    <small><strong>{{ t('mechanism_pathway') }}</strong></small>
+                </div>
+            </div>
+        </div>
+        
+        {% if latest %}
+        <!-- Molecular Data Table -->
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                <h5 class="fw-bold text-dark">{{ t('molecular_data') }} (Latest)</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped table-hover rounded overflow-hidden">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Biomarker</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>{{ t('dcn_expression') }} (DCN)</td><td><span class="badge bg-danger">{{ "%.2f"|format(latest.dcn) }}</span></td></tr>
+                        <tr><td>{{ t('ifng_expression') }} (IFNG)</td><td><span class="badge bg-success">{{ "%.2f"|format(latest.ifng) }}</span></td></tr>
+                        <tr><td>CD8A</td><td>{{ "%.2f"|format(latest.cd8a) }}</td></tr>
+                        <tr><td>GZMB</td><td>{{ "%.2f"|format(latest.gzmb) }}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<script>
+    google.charts.load('current', {'packages':['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+        // IRS Chart
+        var irsData = google.visualization.arrayToDataTable({{ irs_data|safe }});
+
+        var irsOptions = {
+            title: "{{ t('baseline_irs') }} vs {{ t('delta_irs') }}",
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            colors: ['#0d6efd', '#198754'],
+            lineWidth: 3,
+            animation: {
+                startup: true,
+                duration: 1000,
+                easing: 'out'
+            }
+        };
+
+        var irsChart = new google.visualization.LineChart(document.getElementById('irs_chart'));
+        irsChart.draw(irsData, irsOptions);
+
+        // State Space Chart (We'll use a bubble or line chart as a 2D proxy for 3D trajectory)
+        var stateData = google.visualization.arrayToDataTable({{ activation_data|safe }});
+        
+        var stateOptions = {
+            title: "{{ t('activation') }} vs {{ t('exhaustion') }} vs {{ t('proliferation') }}",
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            colors: ['#dc3545', '#ffc107', '#0dcaf0'],
+            lineWidth: 2,
+            animation: {
+                startup: true,
+                duration: 1000,
+                easing: 'inAndOut'
+            }
+        };
+
+        var stateChart = new google.visualization.LineChart(document.getElementById('state_space_chart'));
+        stateChart.draw(stateData, stateOptions);
+    }
+    
+    // Resize charts on window resize
+    window.addEventListener('resize', drawCharts, false);
+</script>
+{% endblock %}

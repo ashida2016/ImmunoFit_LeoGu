@@ -1,0 +1,50 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.display-1 {
+    font-size: 6rem;
+    font-weight: 700;
+}
+
+.text-primary {
+    color: #4a90e2 !important;
+}
+
+.bg-primary {
+    background-color: #4a90e2 !important;
+}
+
+.btn-primary {
+    background-color: #4a90e2 !important;
+    border-color: #4a90e2 !important;
+}
+
+.btn-primary:hover {
+    background-color: #357abd !important;
+    border-color: #357abd !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card, .alert {
+    animation: fadeIn 0.5s ease-out forwards;
+}

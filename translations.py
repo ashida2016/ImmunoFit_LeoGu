@@ -1,0 +1,43 @@
+TRANSLATIONS = {
+    'platform_name': {'en': 'ImmunoFit Platform', 'zh': 'ImmunoFit 平台'},
+    'home': {'en': 'Home', 'zh': '首页'},
+    'patient_mode': {'en': 'Patient Mode', 'zh': '患者模式'},
+    'clinician_mode': {'en': 'Clinician/Research Mode', 'zh': '临床/研究模式'},
+    'language': {'en': 'Language', 'zh': '语言'},
+    'zh': {'en': 'Chinese', 'zh': '中文'},
+    'en': {'en': 'English', 'zh': 'English'},
+    'welcome_msg': {'en': 'Welcome to ImmunoFit - Multimodal Healthcare & Bioinformatics Platform', 'zh': '欢迎使用 ImmunoFit - 多模态医疗健康与生物信息学平台'},
+    'core_goal': {'en': 'Quantifying "Immune Readiness", revealing dynamic immune capacity through physiological perturbation (exercise), predicting immunotherapy efficacy.', 'zh': '量化“免疫准备度”，通过生理扰动（运动）揭示隐性免疫能力，预测免疫治疗（如抗PD-1）疗效。'},
+    
+    # Patient Dashboard
+    'hello': {'en': 'Hello', 'zh': '你好'},
+    'your_immune_readiness': {'en': 'Your Immune Readiness', 'zh': '您的免疫准备度'},
+    'exercise_feedback': {'en': 'Today\'s exercise improved your immune readiness! Excellent job.', 'zh': '今天的运动提升了您的免疫准备度！表现非常棒。'},
+    'recommendation': {'en': 'Recommendation', 'zh': '建议'},
+    'exercise_advice': {'en': 'Add 20 minutes of moderate aerobic exercise to further boost your immune potential.', 'zh': '增加20分钟中等强度有氧运动，进一步提升您的免疫潜能。'},
+    
+    # Clinician Dashboard
+    'patient_details': {'en': 'Patient Details', 'zh': '患者详情'},
+    'age': {'en': 'Age', 'zh': '年龄'},
+    'gender': {'en': 'Gender', 'zh': '性别'},
+    'bmi': {'en': 'BMI', 'zh': 'BMI'},
+    'clinical_markers': {'en': 'Clinical Markers', 'zh': '临床生理指标'},
+    'molecular_data': {'en': 'Molecular Data', 'zh': '分子特征'},
+    'dcn_expression': {'en': 'DCN (Decorin) Expression', 'zh': 'DCN (Decorin) 表达'},
+    'ifng_expression': {'en': 'IFNG Expression', 'zh': 'IFNG 表达'},
+    'irs_calc': {'en': 'IRS Calculation', 'zh': 'IRS 计算过程'},
+    'baseline_irs': {'en': 'Baseline IRS (Immune State)', 'zh': '基线 IRS (免疫状态)'},
+    'delta_irs': {'en': 'ΔIRS (Immune Adaptability)', 'zh': 'ΔIRS (免疫潜能/适应性)'},
+    'predicted_response': {'en': 'Predicted Anti-PD-1 Response', 'zh': '预测抗PD-1疗效'},
+    'prediction_curve': {'en': 'Response Probability Curve', 'zh': '疗效预测曲线'},
+    '3d_state_space': {'en': '3D Immune State Space', 'zh': '3D 免疫状态空间'},
+    'intervention_optimization': {'en': 'Intervention Optimization', 'zh': '干预优化'},
+    'clinical_advice': {'en': 'Clinical Advice: Recommend exercise pre-conditioning before treatment.', 'zh': '临床建议：建议在治疗前进行运动预处理 (Pre-conditioning)'},
+    'mechanism_pathway': {'en': 'Mechanism: DCN Upregulation -> G2/M Arrest (CHEK1-WEE1 axis)', 'zh': '关键机制: DCN 上调 -> G2/M 期阻滞 (CHEK1-WEE1 轴)'},
+    'encrypted': {'en': 'Data Encrypted & Anonymized (HIPAA-compliant logic)', 'zh': '数据已加密脱敏 (类HIPAA逻辑)'},
+    'activation': {'en': 'Activation', 'zh': '激活'},
+    'exhaustion': {'en': 'Exhaustion', 'zh': '衰竭'},
+    'proliferation': {'en': 'Proliferation', 'zh': '增殖'},
+    'view_patient': {'en': 'View Dashboard', 'zh': '查看仪表盘'},
+    'select_patient': {'en': 'Select Patient', 'zh': '选择患者'}
+}

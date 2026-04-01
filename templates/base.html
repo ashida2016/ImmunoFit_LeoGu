@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t('platform_name') }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <!-- Google Charts API -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">ImmunoFit</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('index') }}">{{ t('home') }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('patient_mode') }}">{{ t('patient_mode') }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('clinician_mode') }}">{{ t('clinician_mode') }}</a>
+        </li>
+      </ul>
+      
+      <!-- Patient Selector & Language Toggle -->
+      <ul class="navbar-nav">
+        {% if all_patients %}
+        <li class="nav-item dropdown me-3">
+          <a class="nav-link dropdown-toggle" href="#" id="patientDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ t('select_patient') }}: {{ current_patient.name if current_patient else 'Patient 1' }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="patientDropdown">
+            {% for p in all_patients %}
+            <li><a class="dropdown-item" href="{{ url_for('set_patient', pid=p.id) }}">{{ p.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endif %}
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ t('language') }}: {{ t(current_lang) }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+            <li><a class="dropdown-item" href="{{ url_for('set_lang', lang='en') }}">English</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('set_lang', lang='zh') }}">中文</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
