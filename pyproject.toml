@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "immunofit"
+version = "0.1.0"
+description = "多模态医疗健康和生物信息学平台 — ImmunoFit"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "flask>=3.0,<4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+]
+
+[project.scripts]
+immunofit-api = "immunofit.api:app.run"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["immunofit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
