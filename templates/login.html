@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImmunoFit — Sign In</title>
+    <meta name="description" content="ImmunoFit Login - Multimodal Healthcare & Bioinformatics Platform">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            background: #b71c1c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ── Full-screen animated red background ── */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 120% 80% at 20% 10%, rgba(255,255,255,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 100% 100% at 80% 90%, rgba(0,0,0,0.25) 0%, transparent 60%),
+                linear-gradient(160deg, #d32f2f 0%, #b71c1c 35%, #880e0e 70%, #4a0404 100%);
+            pointer-events: none;
+        }
+
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-orbs .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float 20s ease-in-out infinite;
+        }
+        .bg-orbs .orb:nth-child(1) {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255,82,82,0.4) 0%, transparent 70%);
+            top: -15%; left: -10%;
+            animation-duration: 24s;
+        }
+        .bg-orbs .orb:nth-child(2) {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255,171,64,0.2) 0%, transparent 70%);
+            bottom: -15%; right: -10%;
+            animation-duration: 22s;
+            animation-delay: -6s;
+        }
+        .bg-orbs .orb:nth-child(3) {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 18s;
+            animation-delay: -12s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -50px) scale(1.08); }
+            66% { transform: translate(-30px, 30px) scale(0.92); }
+        }
+
+        /* ── Subtle noise/grain texture ── */
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* ── Login Container ── */
+        .login-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            padding: 0 24px;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .login-card {
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 52px 40px 44px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.04),
+                0 25px 80px -15px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255,255,255,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ── Brand ── */
+        .brand {
+            text-align: center;
+            margin-bottom: 44px;
+        }
+
+        .brand-logo {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 800;
+            color: #fff;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .brand-logo::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            z-index: -1;
+            filter: blur(15px);
+        }
+
+        .brand h1 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .brand p {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 14px;
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+        /* ── Flash Messages ── */
+        .flash-msg {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 200, 200, 0.25);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            color: #ffcdd2;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .flash-msg svg { flex-shrink: 0; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        /* ── Form ── */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper svg {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.3);
+            transition: color 0.25s;
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 16px 15px 48px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            transition: all 0.25s ease;
+            outline: none;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .form-input:focus {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+        }
+
+        .input-wrapper:focus-within svg {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ── Submit Button ── */
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            margin-top: 10px;
+            background: #fff;
+            border: none;
+            border-radius: 14px;
+            color: #b71c1c;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            background: #fff;
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ── Demo hint ── */
+        .demo-hint {
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+        }
+
+        .demo-hint p {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .demo-hint span {
+            color: rgba(255, 255, 255, 0.55);
+            font-weight: 500;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            background: rgba(255,255,255,0.06);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 11px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ── Lang switcher ── */
+        .lang-switch {
+            position: fixed;
+            top: 28px;
+            right: 28px;
+            z-index: 10;
+            display: flex;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            border-radius: 7px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        /* ── Footer ── */
+        .login-footer {
+            text-align: center;
+            margin-top: 28px;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 480px) {
+            .login-card { padding: 40px 24px 32px; border-radius: 22px; }
+            .brand-logo { width: 56px; height: 56px; font-size: 24px; }
+            .brand h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Full-screen red background layers -->
+    <div class="bg-layer"></div>
+    <div class="bg-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <div class="grain-overlay"></div>
+
+    <!-- Language switcher -->
+    <div class="lang-switch">
+        <a class="lang-btn {% if session.get('lang','en') == 'en' %}active{% endif %}" href="{{ url_for('set_lang', lang='en') }}">EN</a>
+        <a class="lang-btn {% if session.get('lang','en') == 'zh' %}active{% endif %}" href="{{ url_for('set_lang', lang='zh') }}">中文</a>
+    </div>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <!-- Brand -->
+            <div class="brand">
+                <div class="brand-logo">IF</div>
+                <h1>ImmunoFit™</h1>
+                <p>{{ t('login_subtitle') }}</p>
+            </div>
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="flash-msg">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <!-- Login Form -->
+            <form method="POST" action="{{ url_for('login') }}" id="loginForm">
+                <div class="form-group">
+                    <label for="username">{{ t('username') }}</label>
+                    <div class="input-wrapper">
+                        <input class="form-input" type="text" id="username" name="username"
+                               placeholder="{{ t('username_placeholder') }}" autocomplete="username" required>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">{{ t('password') }}</label>
+                    <div class="input-wrapper">
+                        <input class="form-input" type="password" id="password" name="password"
+                               placeholder="{{ t('password_placeholder') }}" autocomplete="current-password" required>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login" id="btnLogin">{{ t('sign_in') }}</button>
+            </form>
+
+            <!-- Demo hint (text only, no buttons) -->
+            <div class="demo-hint">
+                <p>
+                    Demo: <span>patient1 / pass123</span> · <span>researcher1 / pass123</span>
+                </p>
+            </div>
+
+            <div class="login-footer">
+                © 2026 ImmunoFit™ · {{ t('login_footer') }}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

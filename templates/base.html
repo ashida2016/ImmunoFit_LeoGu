@@ -6,37 +6,52 @@
     <title>{{ t('platform_name') }}</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <!-- Google Charts API -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">ImmunoFit</a>
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="{{ url_for('index') }}">
+      <span class="brand-badge">IF</span>
+      ImmunoFit
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
+        {% if current_user %}
+        {% if current_user.role == 'patient' %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('index') }}">{{ t('home') }}</a>
+          <a class="nav-link" href="{{ url_for('patient_mode') }}">
+            <span class="me-1">🩺</span> {{ t('patient_mode') }}
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('patient_mode') }}">
+            <span class="me-1">🩺</span> {{ t('patient_mode') }}
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('patient_mode') }}">{{ t('patient_mode') }}</a>
+          <a class="nav-link" href="{{ url_for('clinician_mode') }}">
+            <span class="me-1">🔬</span> {{ t('clinician_mode') }}
+          </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('clinician_mode') }}">{{ t('clinician_mode') }}</a>
-        </li>
+        {% endif %}
+        {% endif %}
       </ul>
       
-      <!-- Patient Selector & Language Toggle -->
-      <ul class="navbar-nav">
-        {% if all_patients %}
+      <!-- Right side: Patient Selector, Role Badge, Language, Logout -->
+      <ul class="navbar-nav align-items-center">
+        {% if current_user and current_user.role == 'researcher' and all_patients %}
         <li class="nav-item dropdown me-3">
           <a class="nav-link dropdown-toggle" href="#" id="patientDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ t('select_patient') }}: {{ current_patient.name if current_patient else 'Patient 1' }}
+            {{ t('select_patient') }}: {{ current_patient.name if current_patient else 'N/A' }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="patientDropdown">
             {% for p in all_patients %}
@@ -46,7 +61,7 @@
         </li>
         {% endif %}
         
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown me-2">
           <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ t('language') }}: {{ t(current_lang) }}
           </a>
@@ -55,12 +70,45 @@
             <li><a class="dropdown-item" href="{{ url_for('set_lang', lang='zh') }}">中文</a></li>
           </ul>
         </li>
+
+        {% if current_user %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="user-avatar">{{ current_user.display_name[0] if current_user.display_name else current_user.username[0] }}</span>
+            <span class="d-none d-md-inline">{{ current_user.display_name or current_user.username }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li class="dropdown-item-text small text-muted">
+              {{ t('role_label') }}: 
+              {% if current_user.role == 'patient' %}
+              <span class="badge bg-info">{{ t('patient_mode') }}</span>
+              {% else %}
+              <span class="badge bg-warning text-dark">{{ t('research_mode') }}</span>
+              {% endif %}
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="{{ url_for('logout') }}">{{ t('sign_out') }}</a></li>
+          </ul>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>
 </nav>
 
 <div class="container mt-4">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     {% block content %}{% endblock %}
 </div>
 

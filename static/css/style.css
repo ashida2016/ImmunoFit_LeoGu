@@ -1,45 +1,89 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
 }
 
+/* ── Navbar Brand Badge ── */
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #6388ff, #a78bfa);
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+}
+
+/* ── User Avatar ── */
+.user-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6388ff, #a78bfa);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* ── Cards ── */
 .card {
-    transition: transform 0.2s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
 
+/* ── Navbar ── */
 .navbar-brand {
-    font-size: 1.5rem;
-    letter-spacing: 1px;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
 }
 
+/* ── Large Score Display ── */
 .display-1 {
-    font-size: 6rem;
+    font-size: 5.5rem;
     font-weight: 700;
+    letter-spacing: -2px;
 }
 
+/* ── Custom Primary Theme ── */
 .text-primary {
-    color: #4a90e2 !important;
-}
-
-.bg-primary {
-    background-color: #4a90e2 !important;
+    color: #3949ab !important;
 }
 
 .btn-primary {
-    background-color: #4a90e2 !important;
-    border-color: #4a90e2 !important;
+    background: linear-gradient(135deg, #3949ab, #5c6bc0) !important;
+    border: none !important;
 }
 
 .btn-primary:hover {
-    background-color: #357abd !important;
-    border-color: #357abd !important;
+    background: linear-gradient(135deg, #283593, #3949ab) !important;
+    box-shadow: 0 4px 15px rgba(57, 73, 171, 0.3) !important;
 }
 
-/* Animations */
+.btn-outline-primary {
+    color: #3949ab !important;
+    border-color: #3949ab !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #3949ab !important;
+    color: #fff !important;
+}
+
+/* ── Animations ── */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -47,4 +91,26 @@ body {
 
 .card, .alert {
     animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* ── Badge Styles ── */
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+/* ── Table ── */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table thead {
+    background: linear-gradient(135deg, #1a237e, #283593);
+}
+
+/* ── Alerts ── */
+.alert {
+    border-radius: 12px;
+    border: none;
 }

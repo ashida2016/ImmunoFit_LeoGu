@@ -1,7 +1,7 @@
 import random
 from datetime import datetime, timedelta
 from extensions import db
-from models import Patient, Assessment, ExerciseSession
+from models import User, Patient, Assessment, ExerciseSession
 from app import app
 
 def init_db():
@@ -9,27 +9,41 @@ def init_db():
         db.drop_all()
         db.create_all()
         
-        # Patients
+        # ── Patients ──
         p1 = Patient(name="John Doe", age=58, gender="Male", bmi=27.5, comorbidities="Hypertension", medication_history="Amlodipine")
         p2 = Patient(name="Jane Smith", age=62, gender="Female", bmi=24.1, comorbidities="None", medication_history="None")
         db.session.add_all([p1, p2])
         db.session.commit()
         
-        # Base timestamp
+        # ── Users ──
+        # Patient account (linked to Patient 1)
+        u_patient = User(username='patient1', role='patient', display_name='John Doe', linked_patient_id=p1.id)
+        u_patient.set_password('pass123')
+
+        # Patient account (linked to Patient 2)
+        u_patient2 = User(username='patient2', role='patient', display_name='Jane Smith', linked_patient_id=p2.id)
+        u_patient2.set_password('pass123')
+
+        # Researcher account
+        u_researcher = User(username='researcher1', role='researcher', display_name='Dr. Leo Gu')
+        u_researcher.set_password('pass123')
+
+        db.session.add_all([u_patient, u_patient2, u_researcher])
+        db.session.commit()
+        print("Users created: patient1/pass123, patient2/pass123, researcher1/pass123")
+        
+        # ── Base timestamp ──
         base_time = datetime.utcnow() - timedelta(days=30)
         
-        # Generate temporal progression for Patient 1 (improving trajectory)
+        # ── Generate temporal progression for Patient 1 (improving trajectory) ──
         for i in range(5):
             eval_time = base_time + timedelta(days=i*7)
-            # IRS starts low, increases
             baseline_irs = 30 + i * 12 + random.uniform(-2, 2)
             delta_irs = 5 + i * 3 + random.uniform(-1, 1)
             
-            # molecular data (DCN going up, exhaust going down)
             dcn = 1.2 + i * 0.4 + random.uniform(-0.1, 0.1)
             ifng = 3.0 + i * 0.6 + random.uniform(-0.2, 0.2)
             
-            # 3D Space Metrics
             activation = 40 + i * 10 + random.uniform(-5, 5)
             exhaustion = 80 - i * 10 + random.uniform(-5, 5)
             proliferation = 50 + i * 8 + random.uniform(-5, 5)
@@ -47,13 +61,12 @@ def init_db():
             )
             db.session.add(assessment)
             
-            # Exercise sessions
             if i > 0:
                 ex_time = eval_time - timedelta(days=2)
                 session = ExerciseSession(patient_id=p1.id, timestamp=ex_time, exercise_type="Aerobic", duration=30, intensity="Moderate")
                 db.session.add(session)
 
-        # Generate temporal progression for Patient 2 (stable/slow trajectory)
+        # ── Generate temporal progression for Patient 2 (stable/slow trajectory) ──
         for i in range(3):
             eval_time = base_time + timedelta(days=i*7)
             baseline_irs = 45 + random.uniform(-3, 3)

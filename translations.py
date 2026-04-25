@@ -3,19 +3,34 @@ TRANSLATIONS = {
     'home': {'en': 'Home', 'zh': '首页'},
     'patient_mode': {'en': 'Patient Mode', 'zh': '患者模式'},
     'clinician_mode': {'en': 'Clinician/Research Mode', 'zh': '临床/研究模式'},
+    'research_mode': {'en': 'Research Mode', 'zh': '研究模式'},
     'language': {'en': 'Language', 'zh': '语言'},
     'zh': {'en': 'Chinese', 'zh': '中文'},
     'en': {'en': 'English', 'zh': 'English'},
     'welcome_msg': {'en': 'Welcome to ImmunoFit - Multimodal Healthcare & Bioinformatics Platform', 'zh': '欢迎使用 ImmunoFit - 多模态医疗健康与生物信息学平台'},
-    'core_goal': {'en': 'Quantifying "Immune Readiness", revealing dynamic immune capacity through physiological perturbation (exercise), predicting immunotherapy efficacy.', 'zh': '量化“免疫准备度”，通过生理扰动（运动）揭示隐性免疫能力，预测免疫治疗（如抗PD-1）疗效。'},
-    
+    'core_goal': {'en': 'Quantifying "Immune Readiness", revealing dynamic immune capacity through physiological perturbation (exercise), predicting immunotherapy efficacy.', 'zh': '量化"免疫准备度"，通过生理扰动（运动）揭示隐性免疫能力，预测免疫治疗（如抗PD-1）疗效。'},
+
+    # Login
+    'login_subtitle': {'en': 'Multimodal Healthcare & Bioinformatics Platform', 'zh': '多模态医疗健康与生物信息学平台'},
+    'username': {'en': 'Username', 'zh': '用户名'},
+    'password': {'en': 'Password', 'zh': '密码'},
+    'username_placeholder': {'en': 'Enter your username', 'zh': '请输入用户名'},
+    'password_placeholder': {'en': 'Enter your password', 'zh': '请输入密码'},
+    'sign_in': {'en': 'Sign In', 'zh': '登录'},
+    'sign_out': {'en': 'Sign Out', 'zh': '退出登录'},
+    'demo_accounts': {'en': 'Quick Demo Access', 'zh': '快速体验账号'},
+    'login_footer': {'en': 'HIPAA-compliant Prototype', 'zh': 'HIPAA 合规原型系统'},
+    'login_error': {'en': 'Invalid username or password', 'zh': '用户名或密码错误'},
+    'welcome_back': {'en': 'Welcome back', 'zh': '欢迎回来'},
+    'role_label': {'en': 'Role', 'zh': '身份'},
+
     # Patient Dashboard
     'hello': {'en': 'Hello', 'zh': '你好'},
     'your_immune_readiness': {'en': 'Your Immune Readiness', 'zh': '您的免疫准备度'},
     'exercise_feedback': {'en': 'Today\'s exercise improved your immune readiness! Excellent job.', 'zh': '今天的运动提升了您的免疫准备度！表现非常棒。'},
     'recommendation': {'en': 'Recommendation', 'zh': '建议'},
     'exercise_advice': {'en': 'Add 20 minutes of moderate aerobic exercise to further boost your immune potential.', 'zh': '增加20分钟中等强度有氧运动，进一步提升您的免疫潜能。'},
-    
+
     # Clinician Dashboard
     'patient_details': {'en': 'Patient Details', 'zh': '患者详情'},
     'age': {'en': 'Age', 'zh': '年龄'},
